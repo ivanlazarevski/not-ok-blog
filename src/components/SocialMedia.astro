@@ -1,0 +1,31 @@
+---
+import { Icon } from "astro-icon";
+const SOCIAL_LINKS = [
+  {
+    href: "https://www.facebook.com/ChaosFiestaBoi",
+    icon: "mdi:facebook",
+  },
+  {
+    href: "https://mk.linkedin.com/in/ivan-lazarevski-4955a9151",
+    icon: "mdi:linkedin",
+  },
+  {
+    href: "https://github.com/ivanlazarevski",
+    icon: "mdi:github",
+  },
+  {
+    href: "mailto:shredgod_lobos@hotmail.com",
+    icon: "mdi:email",
+  },
+];
+---
+
+<section class="flex py-2">
+  {
+    SOCIAL_LINKS.map((link) => (
+      <a href={link.href} target="_blank" class="hover:text-primary-dark">
+        <Icon name={link.icon} />
+      </a>
+    ))
+  }
+</section>

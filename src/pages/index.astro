@@ -1,0 +1,54 @@
+---
+import { getLatestPosts } from "../../util/api";
+import PostCard from "../components/blog/PostCard.astro";
+import PageLayout from "../components/layout/PageLayout.astro";
+import { Icon } from "astro-icon";
+
+const POSTS = await getLatestPosts();
+---
+
+<PageLayout title="Home">
+  <section class="p-4 md:w-1/2 mx-auto">
+    <h1
+      class="text-3xl text-cDark dark:text-primary-main font-display uppercase"
+    >
+      start here &#128526;
+    </h1>
+    <article class="my-4 border-b-1 border-primary-dark">
+      <p>
+        Hi! I'm a <strong class="text-primary-dark font-bold"
+          >software developer!</strong
+        >
+      </p>
+      <p>
+        Welcome to my blog! I'm a software enjoyer, board gamer and helplessly
+        addicted to the cyberpunk subculture. Most, if not all of my posts will
+        try to avoid unsavory topics like politics and work, treating this small
+        place on the web as more of an escape from all that.
+      </p>
+    </article>
+  </section>
+  <section id="latestPosts" class="px-4 md:w-1/2 mx-auto my-4">
+    <h2 class="text-3xl font-display uppercase">Latest posts &#128293;</h2>
+    {
+      POSTS.map((post) => (
+        <PostCard
+          articleTitle={post.title}
+          articleExcerpt={post.articleExcerpt}
+          mainImage={post.mainImage}
+          articleDate={post._createdAt}
+          albumScore={post.albumScore}
+          articleSlug={post.slug.current}
+          minified={false}
+        />
+      ))
+    }
+    <a
+      href="/posts/1"
+      class="flex items-center gap-x-2 justify-center hover:text-primary-dark"
+    >
+      <p>All posts</p>
+      <Icon name="mdi:arrow-right-bold-hexagon-outline" />
+    </a>
+  </section>
+</PageLayout>

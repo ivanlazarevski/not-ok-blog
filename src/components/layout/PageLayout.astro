@@ -1,0 +1,78 @@
+---
+import { siteConfig } from "../../../util/site.config";
+import Footer from "./Footer.astro";
+import Head from "./Head.astro";
+import Header from "./Header.astro";
+
+const { title, description = siteConfig.description } = Astro.props;
+---
+
+<html lang={siteConfig.lang}>
+  <head>
+    <Head {title} {description} />
+    <script define:vars={{ siteConfig }}>
+      const root = document.documentElement;
+      const colorThemeMetaTag = document.querySelector(
+        "meta[name='theme-color']"
+      );
+
+      function getThemePreference() {
+        if (
+          typeof localStorage !== "undefined" &&
+          localStorage.getItem("theme")
+        ) {
+          return localStorage.getItem("theme");
+        }
+        return window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+      }
+
+      const isDark = getThemePreference() === "dark";
+
+      const observer = new MutationObserver(() => {
+        const rootIsDark = root.classList.contains("dark");
+        // set the meta attribute
+        colorThemeMetaTag.setAttribute(
+          "content",
+          siteConfig[rootIsDark ? "themeColorDark" : "themeColorLight"]
+        );
+        // store user preference
+        if (typeof localStorage !== "undefined") {
+          localStorage.setItem("theme", rootIsDark ? "dark" : "light");
+        }
+      });
+
+      observer.observe(root, { attributeFilter: ["class"] });
+
+      root.classList.toggle("dark", isDark);
+    </script>
+  </head>
+  <body
+    class="container mx-auto bg-cBeige text-cDark dark:bg-cDark dark:text-cLight font-body min-h-screen flex flex-col"
+  >
+    <a href="#" id="pageTop"></a>
+    <Header />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+    <style is:global>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Passion+One:wght@400;700;900&display=swap");
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      p {
+        margin: 1.5rem 0;
+      }
+
+      [astro-icon] {
+        height: 36px;
+        width: 36px;
+      }
+    </style>
+  </body>
+</html>

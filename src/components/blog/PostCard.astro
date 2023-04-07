@@ -1,0 +1,55 @@
+---
+import { urlForImage } from "../../../util/helpers";
+
+const {
+  articleTitle,
+  articleExcerpt,
+  mainImage,
+  articleDate,
+  albumScore,
+  articleSlug,
+  minified,
+} = Astro.props;
+const formattedDate = new Date(articleDate).toLocaleDateString("en-GB", {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+});
+const barWidth = `width: ${albumScore}%`;
+---
+
+<article class="my-8">
+  <a
+    class="font-bold text-xl hover:text-primary-main hover:underline decoration-dashed"
+    href={`/post/${articleSlug}`}
+  >
+    <h3 id="articleTitle">{articleTitle}</h3>
+  </a>
+  <time class="text-slate-600 dark:text-primary-light">{formattedDate}</time>
+
+  {
+    !minified && (
+      <picture>
+        <source
+          srcset={urlForImage(mainImage).width(650).format("webp").url()}
+          type="image/webp"
+        />
+        <img src={urlForImage(mainImage).width(650).url()} />
+      </picture>
+    )
+  }
+
+  <div id="articleExcerpt">
+    {articleExcerpt}
+  </div>
+  <div id="albumRating">
+    <span id="ratingScore">Score: {albumScore}</span>
+    <div class="w-16 bg-cDark h-2.5 dark:bg-slate-100">
+      <div
+        class="bg-purple-600 h-2.5 dark:bg-purple-500"
+        style={barWidth}
+      >
+      </div>
+    </div>
+  </div>
+</article>

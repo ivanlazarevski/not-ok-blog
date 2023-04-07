@@ -1,0 +1,16 @@
+---
+import { Icon } from "astro-icon";
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer
+  class="flex flex-col-reverse md:flex-row justify-between items-center mx-auto mt-auto md:w-1/2 p-4 border-t-1 border-primary-dark"
+>
+  <p class="text-center">
+    Copyright &copy; {currentYear} | All rights reserved.
+  </p>
+  <a href="#pageTop" class="hover:text-primary-dark">
+    <Icon name="mdi:arrow-up-bold-hexagon-outline" />
+  </a>
+</footer>

@@ -1,0 +1,36 @@
+---
+import { Icon } from "astro-icon";
+const { prevUrl, nextUrl } = Astro.props;
+---
+
+<nav aria-label="Blog Pages" class="w-1/2 mx-auto">
+  <section
+    id="paginator"
+    class="flex justify-center gap-x-64 my-4 mt-auto font-display text-2xl"
+  >
+    {
+      prevUrl && (
+        <a id="paginator-prev" class="paginator-btn" href={prevUrl}>
+          <Icon name="mdi:arrow-left-bold-hexagon-outline" /> Prev
+        </a>
+      )
+    }
+    {
+      nextUrl && (
+        <a id="paginator-prev" class="paginator-btn" href={nextUrl}>
+          Next
+          <Icon name="mdi:arrow-right-bold-hexagon-outline" />
+        </a>
+      )
+    }
+  </section>
+</nav>
+
+<style>
+  .paginator-btn {
+    @apply hover:text-primary-dark cursor-pointer flex items-center;
+  }
+  .disabled {
+    @apply text-slate-400 cursor-default hover:text-slate-400;
+  }
+</style>

@@ -1,0 +1,47 @@
+---
+import { getBlogPosts } from "../../../util/api";
+import { urlForImage } from "../../../util/helpers";
+import PortableText from "../../components/blog/PortableText.astro";
+import PageLayout from "../../components/layout/PageLayout.astro";
+export async function getStaticPaths() {
+  const allPosts = await getBlogPosts();
+  return allPosts.map((post) => ({
+    params: { slug: post.slug.current },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { albumScore } = post;
+const barWidth = `width: ${albumScore}%`;
+---
+
+<PageLayout title={post.title}>
+  <section id="blog-section" class="w-1/2 mx-auto mt-4">
+    <article>
+      <header class="border-b-1 border-primary-dark">
+        <h2 class="text-3xl my-4 py-2">{post.title}</h2>
+        <div id="albumRating">
+          <div class="w-full bg-cDark h-6 dark:bg-slate-100">
+            <div class="bg-purple-600 h-6 dark:bg-purple-500" style={barWidth}>
+              <div class="text-center">{albumScore}%</div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div id="articleContent">
+        <picture>
+          <source
+            srcset={urlForImage(post.mainImage)
+              .width(1024)
+              .format("webp")
+              .url()}
+            type="image/webp"
+          />
+          <img src={urlForImage(post.mainImage).width(1024).url()} />
+        </picture>
+      </div>
+      <PortableText portableText={post.body} />
+    </article>
+  </section>
+</PageLayout>

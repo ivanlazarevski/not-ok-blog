@@ -1,0 +1,28 @@
+---
+import PageLayout from "../components/layout/PageLayout.astro";
+import { Image } from "@astrojs/image/components";
+import socialImage from "../../public/monster-404-page.svg";
+import { Icon } from "astro-icon";
+---
+
+<PageLayout title="404">
+  <section
+    id="pageNotFound"
+    class="flex flex-col items-center justify-between md:w-1/2 md:mx-auto px-4 py-8"
+  >
+    <a class="flex items-center gap-x-2 text-cDark dark:text-primary-dark" href="/">
+      <p>Back to safety</p>
+      <Icon name="mdi:arrow-right-bold-hexagon-outline" />
+    </a>
+    <Image
+      src={socialImage}
+      width={1920}
+      height={1080}
+      aspectRatio="16:9"
+      alt="descriptive text"
+    />
+    <a class="block text-primary-dark text-sm" href="https://storyset.com/web"
+      >Web illustrations by Storyset</a
+    >
+  </section>
+</PageLayout>

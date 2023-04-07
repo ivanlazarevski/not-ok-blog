@@ -1,0 +1,40 @@
+---
+import PageLayout from "../../components/layout/PageLayout.astro";
+import PostCard from "../../components/blog/PostCard.astro";
+import { getBlogPosts } from "../../../util/api";
+import Pagination from "../../components/Pagination.astro";
+
+export async function getStaticPaths({ paginate }) {
+  const ALL_POSTS = await getBlogPosts();
+  return paginate(ALL_POSTS, {
+    pageSize: 3,
+  });
+}
+const { page } = Astro.props;
+---
+
+<PageLayout title="Posts">
+  <section class="md:w-1/2 mx-auto p-4">
+    <h1
+      class="text-3xl text-cDark dark:text-primary-main font-display uppercase"
+    >
+      Posts &#129324;
+    </h1>
+  </section>
+  <section id="posts-list" class="px-4 md:w-1/2 mx-auto my-4">
+    {
+      page.data.map((post) => (
+        <PostCard
+          articleTitle={post.title}
+          articleExcerpt={post.articleExcerpt}
+          mainImage={post.mainImage}
+          articleDate={post._createdAt}
+          albumScore={post.albumScore}
+          articleSlug={post.slug.current}
+          minified={true}
+        />
+      ))
+    }
+  </section>
+  <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
+</PageLayout>
